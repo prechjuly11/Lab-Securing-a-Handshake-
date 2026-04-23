@@ -2,31 +2,269 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Phone Book Lab</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      color: #333;
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-section {
+      margin-bottom: 35px;
+    }
+
+    .form-section:last-of-type {
+      margin-bottom: 30px;
+    }
+
+    .form-section h2 {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-section h2::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+      margin-right: 10px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    #loginForm {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    #contactForm {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #667eea;
+      background-color: #f8f9ff;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #999;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      grid-column: 1 / -1;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #logoutBtn {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 8px 16px;
+      font-size: 12px;
+      margin-top: 10px;
+      grid-column: auto;
+      width: 100%;
+    }
+
+    #logoutBtn:hover {
+      box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    .output-section {
+      background: #f8f9ff;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .output-section h3 {
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    #output {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.6;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      #loginForm,
+      #contactForm {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        grid-column: 1 / -1;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #764ba2;
+    }
+  </style>
 </head>
 <body>
-  <h1>Phone Book Lab</h1>
+  <div class="container">
+    <div class="header">
+      <h1>📖 Phone Book</h1>
+      <p>Secure Contact Management</p>
+      <div class="header-actions">
+        <button id="logoutBtn" type="button" style="display: none;">Log Out</button>
+      </div>
+    </div>
 
-  <h2>Login</h2>
-  <form id="loginForm">
-    <input type="text" id="username" placeholder="username" value="admin" />
-    <input type="password" id="password" placeholder="password" value="password123" />
-    <button type="submit">Login</button>
-  </form>
+    <div class="form-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" value="admin" />
+        <input type="password" id="password" placeholder="Password" value="password123" />
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
 
-  <h2>Add Contact</h2>
-  <form id="contactForm">
-    <input type="text" id="name" placeholder="name" />
-    <input type="text" id="phone" placeholder="phone" />
-    <button type="submit">Add Contact</button>
-  </form>
+    <div class="form-section">
+      <h2>Add Contact</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Full Name" />
+        <input type="text" id="phone" placeholder="Phone Number" />
+        <button type="submit">Add Contact</button>
+      </form>
+    </div>
 
-  <pre id="output"></pre>
+    <div class="output-section">
+      <h3>Response Output</h3>
+      <pre id="output"></pre>
+    </div>
+  </div>
 
   <script>
     let csrfToken = '';
+    let isLoggedIn = false;
 
     const output = document.getElementById('output');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     function log(data) {
       output.textContent = JSON.stringify(data, null, 2);
@@ -62,7 +300,33 @@
       log(data);
 
       if (res.ok) {
+        isLoggedIn = true;
+        logoutBtn.style.display = 'block';
         await fetchCsrfToken();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const res = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        },
+        credentials: 'same-origin'
+      });
+
+      const data = await res.json();
+      log(data);
+
+      if (res.ok) {
+        isLoggedIn = false;
+        csrfToken = '';
+        logoutBtn.style.display = 'none';
+        document.getElementById('name').value = '';
+        document.getElementById('phone').value = '';
       }
     });
 
