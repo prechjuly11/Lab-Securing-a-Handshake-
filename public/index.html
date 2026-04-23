@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phone Book Lab</title>
+</head>
+<body>
+  <h1>Phone Book Lab</h1>
+
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="username" value="admin" />
+    <input type="password" id="password" placeholder="password" value="password123" />
+    <button type="submit">Login</button>
+  </form>
+
+  <h2>Add Contact</h2>
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="name" />
+    <input type="text" id="phone" placeholder="phone" />
+    <button type="submit">Add Contact</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    let csrfToken = '';
+
+    const output = document.getElementById('output');
+
+    function log(data) {
+      output.textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function fetchCsrfToken() {
+      const res = await fetch('/api/csrf-token', {
+        method: 'GET',
+        credentials: 'same-origin'
+      });
+
+      const data = await res.json();
+      csrfToken = data.csrfToken;
+      log({ message: 'Fetched CSRF token', csrfToken });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        })
+      });
+
+      const data = await res.json();
+      log(data);
+
+      if (res.ok) {
+        await fetchCsrfToken();
+      }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const res = await fetch('/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          name: document.getElementById('name').value,
+          phone: document.getElementById('phone').value
+        })
+      });
+
+      const data = await res.json();
+      log(data);
+    });
+  </script>
+</body>
+</html>

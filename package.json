@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
+    "express": "^5.2.1",
+    "express-handlebars": "^9.0.1",
+    "express-session": "^1.19.0"
+  },
+  "name": "lab-securing-a-handshake-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViraksithHuor/Lab-Securing-a-Handshake-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ViraksithHuor/Lab-Securing-a-Handshake-/issues"
+  },
+  "homepage": "https://github.com/ViraksithHuor/Lab-Securing-a-Handshake-#readme"
+}
